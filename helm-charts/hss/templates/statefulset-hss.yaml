@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hss
+spec:
+  selector:
+    matchLabels:
+      app: hss # has to match .spec.template.metadata.labels
+  serviceName: hss-headless
+  template:
+    metadata:
+      labels:
+        app: hss # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+      - name: hss
+        image: vaishalinicky/hss:v1
+        command: ["/bin/bash", "-xc", "/opt/c3po/hssdb/Cass_Provisioning.sh"]
+        volumeMounts:
+        - name: hss-configs-files
+          mountPath: /opt/c3po/
+      volumes:
+      - name: hss-configs-files
+        configMap:
+          name: hss-configs
+          defaultMode: 493
+          items:
+          - key: acl.conf
+            path: hss/conf/acl.conf
+          - key: hss.conf
+            path: hss/conf/hss.conf
+          - key: hss.json
+            path: hss/conf/hss.json
+          - key: oss.json
+            path: hss/conf/oss.json
+          - key: Cass_Provisioning.sh
+            path: hssdb/Cass_Provisioning.sh
+          - key: data_provisioning_mme.sh
+            path: hssdb/data_provisioning_mme.sh
+          - key: data_provisioning_users.sh
+            path: hssdb/data_provisioning_users.sh
+          - key: hss-run.sh
+            path: hssdb/hss-run.sh
+          - key: oai_db.cql
+            path: hssdb/oai_db.cql
