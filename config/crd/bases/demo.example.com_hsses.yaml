@@ -32,6 +32,25 @@ spec:
           spec:
             description: Spec defines the desired state of Hss
             type: object
+            properties:
+              acl.conf:
+                type: string
+              hss.conf:
+                type: string
+              hss.json:
+                type: string
+              oss.json:
+                type: string
+              Cass_Provisioning.sh:
+                type: string
+              data_provisioning_mme.sh:
+                type: string
+              data_provisioning_users.sh:
+                type: string
+              hss-run.sh:
+                type: string
+              oai_db.cql:
+                type: string
             x-kubernetes-preserve-unknown-fields: true
           status:
             description: Status defines the observed state of Hss
@@ -42,3 +61,4 @@ spec:
     storage: true
     subresources:
       status: {}
+
